@@ -280,7 +280,7 @@ public class PlayAppState extends AbstractAppState {
         for (int i = 0; i < counter3; i++) {
             balls.get(i).setSpatial(loadedNode.getChild("ball" + i));
             balls.get(i).setXYZLocations();
-            agentManager.add(new PlayerAgent(balls.get(i)));
+            agentManager.add(new BotAgent(balls.get(i),hole));
         }
         
         ball = agentManager.getCurrentAgent().getBall();
@@ -436,9 +436,9 @@ public class PlayAppState extends AbstractAppState {
     }
     
     public void botTurn() {
-        if (agentManager.getCurrentAgent().getClass().equals(BotAgent.class)) {
-            //shooted = true;
-            //Vector3f shot = agentManager.getCurrentAgent().computeShot();
+        if (!shooted && agentManager.getCurrentAgent().getClass().equals(BotAgent.class)) {
+            ((BotAgent)agentManager.getCurrentAgent()).computeShot();
+            shooted = true;
         }
     }
     

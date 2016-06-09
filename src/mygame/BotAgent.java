@@ -54,12 +54,26 @@ public class BotAgent implements Agent {
         }
     }
     
-    public Vector3f computeShot() {
+    public void computeShot() {
         Vector3f newVelocity = holePosition.subtract(ball.getLocation());
         Ball testBall = new Ball("testBall",ball.getSpatial());
         Vector3f shot = newVelocity.normalize();
         testBall.setLocation(ball.getLocation());
-        while ()
+        
+        System.out.println("newVelocity: " + newVelocity);
+        System.out.println("shot: " + shot);
+        System.out.println("newVelocity/shot:" + newVelocity.divide(shot));
+        float point1=0f, point2=4f;
+        while (!testBall.getBallControl().isMoving())
+        {
+            testBall.getBallControl().setxVelocity(shot.getX()*point2);
+            testBall.getBallControl().setxVelocity(shot.getY()*point2);
+            
+        }
+        
+        shot.scaleAdd(0.2f, shot);
+        ball.getBallControl().setxVelocity(shot.getX());
+        ball.getBallControl().setzVelocity(shot.getZ());
     }
     
 }

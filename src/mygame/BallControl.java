@@ -155,7 +155,6 @@ public class BallControl extends AbstractControl implements Savable, Cloneable {
      */
     public boolean isMoving() {
         if (Math.abs(velocity.getX()) <= 0.01f && Math.abs(velocity.getZ()) <= 0.01f) {
-            System.out.println("Ball is NOT moving");
             return false;
         }
         return true;
