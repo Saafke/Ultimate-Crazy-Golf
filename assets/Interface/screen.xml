@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nifty xmlns="http://nifty-gui.sourceforge.net/nifty-1.3.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-gui.sourceforge.net/nifty-1.3.xsd">
+    <useStyles filename="nifty-default-styles.xml" />
+    <useControls filename="nifty-default-controls.xml" />
+    <!-- +++++++++++++++++++++++++++++++++++++++ -->
+    <!-- start screen -->
+    <!-- +++++++++++++++++++++++++++++++++++++++ -->
+    <screen id="start" controller="mygame.GUIAppState">
+        <layer id="background" childLayout="center">
+            <image filename="Interface/13187751_1087088831337470_349157867_n.jpg" height="100%" width="100%">
+            </image>
+        </layer>
+        <layer id="foreground" backgroundColor="#0000" childLayout="vertical">
+                
+              <panel id="panel" height="100%" width="90%" align="center" childLayout="center">
+                  <panel id="top" align="center" childLayout="vertical">
+                      <control id="startButton" valign="center" name="button" label="Start">
+                          <interact onClick="startGameOnClickButton(game_hud)"/>
+                      </control>
+                    <control id="editorButton" valign="center" name="button" visibleToMouse="true" label="Editor">
+                        <interact onClick="startEditor(editor_hud)"/>
+                    </control>
+                    <control id="quitButton" valign="center" name="button" label="Quit">
+                        <interact onClick="quit()" />
+                    </control>
+                    <control name="label" text="Project 2 Group 6">
+                    </control>
+                  </panel>
+              </panel>
+              
+        </layer>
+    </screen>
+    <screen id="editor_hud" controller="mygame.GUIAppState">
+        <layer id="background" childLayout="center">
+            <image filename="Interface/HudBackground.png" height="100%" width="100%"></image>
+        </layer>
+        <!-- -->
+        <layer id="foreground" childLayout="vertical" align="center">
+            <panel id="stats_panel" childLayout="center" height="6%" width="100%">
+                <text id="currentRound" text="Crazy Golf Course Editor " font="Interface/Fonts/Arial.fnt" color="#00ff" width="12.5%" height="100%" textHAlign="center" />
+            </panel>
+            <panel id="blank" childLayout="horizontal" height="88%" width="100%">
+                <!-- Takes up the rest of the vertical space of this layer. -->
+            </panel>
+            <panel id="bottom_panel" childLayout="center" height="6%" width="100%">
+                <panel childLayout="horizontal">
+                    <control id="holeButton" name="button" label="Hole">
+                        <interact onClick="placeHoleOnClickButton()" />
+                    </control>
+                    <control id="ballButton" name="button" label="Ball">
+                        <interact onClick="placeBallOnClickButton()" />
+                    </control>
+                    <control id="treeButton" name="button" label="Tree">
+                        <interact onClick="placeTreeOnClickButton()" />
+                    </control>
+                    <control id="wallButton" name="button" label="+ Wall">
+                        <interact onClick="placeWallOnClickButton()" />
+                    </control>
+                    <control id="heightMapButton" name="button" label="Edit terrain">
+                        <interact onClick="editTerrainOnClickButton()" />
+                    </control>
+                    <control id="saveCourseButton" name="button" label="Save course">
+                        <interact onClick="saveOnClickButton()" />
+                    </control>
+                </panel>
+            </panel>
+        </layer>
+    </screen>
+    <screen id="game_hud" controller="mygame.GUIAppState">
+        <layer id="background" childLayout="center">
+        </layer>
+        <layer id="foreground" childLayout="vertical" align="center">
+            <panel id="blank" childLayout="horizontal" height="66%" width="100%">
+                <!-- Takes up the rest of the vertical space of this layer. -->
+            </panel>
+            <panel id="panel" height="22%" width="12.5%" childLayout="center">
+                 <image filename="Interface/HealthBar2.png" height="100%" width="20%">
+                </image>
+                </panel>
+            <panel id="panel" height="6%" width="13%" childLayout="center">
+                <control name="label" text="Power">  
+                </control>
+            </panel>
+            
+        </layer>
+    </screen>
+</nifty>
