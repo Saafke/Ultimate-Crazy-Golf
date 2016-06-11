@@ -45,35 +45,89 @@ public class BotAgent implements Agent {
     }
 
     public void performShot(float intensity, float xDir, float yDir) {
-        if (intensity < 4f) {
+        intensity = intensity / 10;
+        if (intensity < 0.4f) {
+            ball.getBallControl().setxVelocity(xDir * intensity);
+            ball.getBallControl().setzVelocity(yDir * intensity);
+        } else {
+            ball.getBallControl().setxVelocity(xDir * 0.4f);
+            ball.getBallControl().setzVelocity(yDir * 0.4f);
+        }
+    }
+    /*public void performShot(float intensity, float xDir, float yDir) {
+        intensity = intensity / 10;
+        if (intensity < 0.4f) {
             ball.getBallControl().setxVelocity(((xDir) / 10) * intensity);
             ball.getBallControl().setzVelocity(((yDir) / 10) * intensity);
         } else {
             ball.getBallControl().setxVelocity(((xDir) / 10) * 4f);
             ball.getBallControl().setzVelocity(((yDir) / 10) * 4f);
         }
-    }
+    }*/
     
     public void computeShot() {
-        Vector3f newVelocity = holePosition.subtract(ball.getLocation());
+        Vector3f ballHoleVector = holePosition.subtract(ball.getSpatial().getLocalTranslation());
+        float distanceBallHole = holePosition.distance(ball.getSpatial().getLocalTranslation());
+                
         Ball testBall = new Ball("testBall",ball.getSpatial());
-        Vector3f shot = newVelocity.normalize();
-        testBall.setLocation(ball.getLocation());
         
-        System.out.println("newVelocity: " + newVelocity);
-        System.out.println("shot: " + shot);
-        System.out.println("newVelocity/shot:" + newVelocity.divide(shot));
+        Vector3f direction = ballHoleVector.normalize();
+        testBall.setLocation(ball.getSpatial().getLocalTranslation());
+        
+//        System.out.println("ballHoleDistanceVector: " + ballHoleVector);
+//        System.out.println("normalized ballHoleDistance (direction): " + direction);
+//        System.out.println("ballHoleDistance/normalized ballHoleDistance (direction):" + ballHoleVector.divide(direction));
+        
         float point1=0f, point2=4f;
-        while (!testBall.getBallControl().isMoving())
-        {
-            testBall.getBallControl().setxVelocity(shot.getX()*point2);
-            testBall.getBallControl().setxVelocity(shot.getY()*point2);
-            
-        }
         
-        shot.scaleAdd(0.2f, shot);
-        ball.getBallControl().setxVelocity(shot.getX());
-        ball.getBallControl().setzVelocity(shot.getZ());
+//      while (!testBall.getBallControl().isMoving())
+//          {
+//            testBall.getBallControl().setxVelocity(shot.getX()*point2);
+//           testBall.getBallControl().setxVelocity(shot.getY()*point2);
+            
+//        }
+        
+//        System.out.println("difference 3 : " + getEquation(distanceBallHole,direction,3f));
+//        System.out.println("difference 0.1 : " + getEquation(distanceBallHole,direction,0.1f));
+        
+        float answer = secantMethod(0.1f,30f,distanceBallHole,direction) * 1.05f;         // times 1.1 because otherwise it is just too slow
+        System.out.println("Secantshit:" + answer);
+         
+        direction = direction.mult(answer);
+
+        ball.getBallControl().setxVelocity(direction.getX());
+        ball.getBallControl().setzVelocity(direction.getZ());
+    }
+    public float getEquation(float distanceBallHole, Vector3f direction, float x){//ballHoleDistance = distance from ball to hole, x approximation
+        //the approximated velocity 
+        Vector3f fua = direction.mult(x);
+        //how much the ball travels with that velocity (in vectors)
+        Vector3f distance = ball.getBallControl().getDistance(fua);
+        //how much the ball travels with that velocity (in floats)
+        float distanceFloat = distance.length();
+        //difference between the two
+        float difference = distanceBallHole - distanceFloat;
+        System.out.println("distance BallHole: " + distanceBallHole + "  -  " +" distanceWithApproxVelocity: " + distanceFloat + " =  " + difference);
+        return difference;
+    }
+    
+    public float secantMethod(float approx1, float approx2, float distanceBallHole, Vector3f direction){
+        float b = getEquation(distanceBallHole,direction,approx2);
+        float a = getEquation(distanceBallHole,direction,approx1);
+        System.out.println("b: " + b);
+        System.out.println("a: " + a);
+        
+        if(b == a) throw new IllegalArgumentException();
+        
+        float epsilon = 0.001f;
+        float nextapprox;
+        
+        nextapprox = approx2 - (  (  (approx2 - approx1)/(b - a)  )  *  b);
+       
+        System.out.println("next apprpox ;" + nextapprox);
+        
+        if (Math.abs(nextapprox - approx2) > epsilon) return secantMethod(approx2,nextapprox,distanceBallHole,direction);
+        else return nextapprox;
     }
     
 }

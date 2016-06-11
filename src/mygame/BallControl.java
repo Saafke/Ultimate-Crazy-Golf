@@ -25,7 +25,7 @@ public class BallControl extends AbstractControl implements Savable, Cloneable {
     //Any local variables should be encapsulated by getters/setters so they
     //appear in the SDK properties window and can be edited.
     //Right-click a local variable to encapsulate it with getters and setters.
-
+    private float speed = 0f;
     private Vector3f velocity = new Vector3f(0f, 0f, 0f);
     final float friction = 0.99f;
     private final float WIDTH = 2f;
@@ -101,7 +101,10 @@ public class BallControl extends AbstractControl implements Savable, Cloneable {
         //System.out.println("vel" + velocity.toString());
         //System.out.println("time: " + time);
     }
-
+    
+    public float getSpeed(){
+        return (float) Math.sqrt(Math.pow(velocity.getX(),2)  +  Math.pow(velocity.getZ(),2));
+    }
     public void resetTime() {
         time = 0f;
     }
@@ -148,6 +151,23 @@ public class BallControl extends AbstractControl implements Savable, Cloneable {
 
     public void setyVelocity(float y) {
         velocity.setY(y);
+    }
+    
+    public Vector3f getDistance(Vector3f v){
+        float xValue = 0f;
+        float zValue = 0f;
+        
+        while(Math.abs(v.getX()) > 0.05f || Math.abs(v.getZ()) > 0.05f){
+            
+            xValue += v.getX();
+            zValue += v.getZ();
+            
+            v.setX(v.getX() * friction);
+            v.setZ(v.getZ() * friction);
+            
+        }
+        Vector3f distance = new Vector3f(xValue,0f,zValue);
+        return distance;
     }
     
     /* 

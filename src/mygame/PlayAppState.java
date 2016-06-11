@@ -425,10 +425,15 @@ public class PlayAppState extends AbstractAppState {
         float hz = hole.getLocation().getZ();
 
         if (x - ball.getXExtent() > hole.getX() - hole.getRadius() && x + ball.getXExtent() < hx + hole.getRadius()
-                && z - ball.getZExtent() > hz - hole.getRadius() && z + ball.getZExtent() < hz + hole.getRadius()) {
-            System.out.println("Scored biiitch");
+                && z - ball.getZExtent() > hz - hole.getRadius() && z + ball.getZExtent() < hz + hole.getRadius()
+                && y < hy - 20
+                && ball.getBallControl().getSpeed() < 1.5f) {
+            
+            ball.getBallControl().setxVelocity(ball.getBallControl().getxVelocity() * 0f);
+            ball.getBallControl().setyVelocity(ball.getBallControl().getyVelocity() * 0f);
+            ball.getBallControl().setzVelocity(ball.getBallControl().getzVelocity() * 0f);
+            System.out.println("stop the ball!" );
         }
-
     }
     
     public void changeCamera(Ball ball) {

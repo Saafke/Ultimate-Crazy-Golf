@@ -34,12 +34,13 @@ public class PlayerAgent implements Agent {
     }
 
     public void performShot(float intensity, float xDir, float yDir) {
-        if (intensity < 4f) {
-            ball.getBallControl().setxVelocity(((xDir) / 10) * intensity);
-            ball.getBallControl().setzVelocity(((yDir) / 10) * intensity);
+        intensity = intensity /10;
+        if (intensity < 0.4f) {
+            ball.getBallControl().setxVelocity(xDir * intensity);
+            ball.getBallControl().setzVelocity(yDir * intensity);
         } else {
-            ball.getBallControl().setxVelocity(((xDir) / 10) * 4f);
-            ball.getBallControl().setzVelocity(((yDir) / 10) * 4f);
+            ball.getBallControl().setxVelocity(xDir * 4f);
+            ball.getBallControl().setzVelocity(yDir * 4f);
         }
     }
     
