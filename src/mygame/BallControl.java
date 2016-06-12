@@ -54,29 +54,16 @@ public class BallControl extends AbstractControl implements Savable, Cloneable {
         time += 1 / 60f;
 
         //System.out.println(velocity.toString());
-
-        if (upHill == 1) {
-//            System.out.println("Uphill" + velocity.toString());
-            velocity.setX(velocity.getX() * friction * (1f - (slope / 10)));
-            velocity.setY(velocity.getY() - gravity * time);
-            velocity.setZ(velocity.getZ() * friction * (1f - (slope / 10)));
-
-            if (Math.abs(velocity.getX()) < 0.05f && Math.abs(velocity.getZ()) < 0.05f) {
-                velocity = new Vector3f(velocity.getX() * -1f, velocity.getY(), velocity.getZ() * -1f);
-                resetTime();
-                //System.out.println("CHANGES MOTERFUCKING DIRECTION");
-            }
-        } else if (upHill == -1) {
-//            System.out.println("Downhill" + velocity.toString());
-            velocity.setX(velocity.getX() * friction * (1f + (slope / 10)));
-            velocity.setY(velocity.getY() - gravity * time);
-            velocity.setZ(velocity.getZ() * friction * (1f + (slope / 10)));
-
-            if (Math.abs(velocity.getX()) < 0.05f && Math.abs(velocity.getY()) < 0.05f
-                    && Math.abs(velocity.getZ()) < 0.05f) {
-                velocity = new Vector3f(velocity.getX() * 1f, velocity.getY(), velocity.getZ() * 1f);
-                resetTime();
-            }
+        
+        if(upHill == 1 || upHill == -1){
+            
+            System.out.println(upHill + "    " + velocity.getY());
+            
+            gVector.mult(time);
+            velocity.mult((float) Math.pow(1, fps));
+            
+            Vector3f slopeAcceleration = gVector.subtract(gVector.project(normal));
+            velocity = velocity.add(slopeAcceleration.mult(fps));
         } else if (upHill == 0) {
 //            System.out.println("flat" + velocity.toString());
             velocity.setX(velocity.getX() * friction);
