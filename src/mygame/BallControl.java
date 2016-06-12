@@ -26,8 +26,8 @@ public class BallControl extends AbstractControl implements Savable, Cloneable {
     //appear in the SDK properties window and can be edited.
     //Right-click a local variable to encapsulate it with getters and setters.
     private float speed = 0f;
-    private Vector3f velocity = new Vector3f(0f, 0f, 0f);
-    final float friction = 0.99f;
+    private Vector3f velocity = new Vector3f(0f, 0f, 0f), normal, gVector = new Vector3f(0f, -1f, 0f);
+    final float friction = 0.99f, fps = 1/60f;
     private final float WIDTH = 2f;
     private final float RADIUS = WIDTH / 2;
     private float slope = 0;
@@ -51,32 +51,19 @@ public class BallControl extends AbstractControl implements Savable, Cloneable {
     }
 
     public void moveBall() {
-        time += 1 / 60f;
+        time += fps;
 
         //System.out.println(velocity.toString());
-
-        if (upHill == 1) {
-//            System.out.println("Uphill" + velocity.toString());
-            velocity.setX(velocity.getX() * friction * (1f - (slope / 10)));
-            velocity.setY(velocity.getY() - gravity * time);
-            velocity.setZ(velocity.getZ() * friction * (1f - (slope / 10)));
-
-            if (Math.abs(velocity.getX()) < 0.05f && Math.abs(velocity.getZ()) < 0.05f) {
-                velocity = new Vector3f(velocity.getX() * -1f, velocity.getY(), velocity.getZ() * -1f);
-                resetTime();
-                //System.out.println("CHANGES MOTERFUCKING DIRECTION");
-            }
-        } else if (upHill == -1) {
-//            System.out.println("Downhill" + velocity.toString());
-            velocity.setX(velocity.getX() * friction * (1f + (slope / 10)));
-            velocity.setY(velocity.getY() - gravity * time);
-            velocity.setZ(velocity.getZ() * friction * (1f + (slope / 10)));
-
-            if (Math.abs(velocity.getX()) < 0.05f && Math.abs(velocity.getY()) < 0.05f
-                    && Math.abs(velocity.getZ()) < 0.05f) {
-                velocity = new Vector3f(velocity.getX() * 1f, velocity.getY(), velocity.getZ() * 1f);
-                resetTime();
-            }
+        
+        if(upHill == 1 || upHill == -1){
+            
+            System.out.println(upHill + "    " + velocity.getY());
+            
+            gVector.mult(time);
+            velocity.mult((float) Math.pow(1, fps));
+            
+            Vector3f slopeAcceleration = gVector.subtract(gVector.project(normal));
+            velocity = velocity.add(slopeAcceleration.mult(fps));
         } else if (upHill == 0) {
 //            System.out.println("flat" + velocity.toString());
             velocity.setX(velocity.getX() * friction);
@@ -100,6 +87,13 @@ public class BallControl extends AbstractControl implements Savable, Cloneable {
         }
         //System.out.println("vel" + velocity.toString());
         //System.out.println("time: " + time);
+    }
+    
+    public void setNormal(Vector3f normal){
+        this.normal = normal;
+    }
+    public Vector3f getNormal(){
+        return normal;
     }
     
     public float getSpeed(){
