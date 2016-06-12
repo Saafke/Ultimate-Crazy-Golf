@@ -136,6 +136,9 @@ public class PhysicsEngine {
         float x = ball.getSpatial().getLocalTranslation().getX(); // Whatever X you want to check...
         float z = ball.getSpatial().getLocalTranslation().getZ(); // Whatever Z you want to check...
         float ground_slope = 1f - terrain.getNormal(new Vector2f(x, z)).y;
+        
+        ball.getBallControl().setNormal(terrain.getNormal(new Vector2f(x,z)).normalize());
+        
         // setting the 'slope'
         ball.getBallControl().setSlope(ground_slope);
 
