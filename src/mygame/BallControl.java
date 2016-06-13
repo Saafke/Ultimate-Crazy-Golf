@@ -63,7 +63,7 @@ public class BallControl extends AbstractControl implements Savable, Cloneable {
             velocity.mult((float) Math.pow(1, fps));
             
             Vector3f slopeAcceleration = gVector.subtract(gVector.project(normal));
-            velocity = velocity.add(slopeAcceleration.mult(fps));
+            velocity = velocity.add(slopeAcceleration.mult(fps)).mult(friction);
         } else if (upHill == 0) {
 //            System.out.println("flat" + velocity.toString());
             velocity.setX(velocity.getX() * friction);
