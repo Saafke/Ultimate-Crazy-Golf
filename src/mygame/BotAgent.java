@@ -55,8 +55,7 @@ public class BotAgent implements Agent {
         Ball testBall = new Ball("testBall",ball.getSpatial());
         testBall.setLocation(ball.getSpatial().getLocalTranslation());
         testBall.getSpatial().setLocalTranslation(ball.getSpatial().getLocalTranslation());
-        System.out.println(testBall.getSpatial().getLocalTranslation());
-        System.out.println(ball.getSpatial().getLocalTranslation());
+
 //        System.out.println("ballHoleDistanceVector: " + ballHoleVector);
 //        System.out.println("normalized ballHoleDistance (direction): " + direction);
 //        System.out.println("ballHoleDistance/normalized ballHoleDistance (direction):" + ballHoleVector.divide(direction));
@@ -77,9 +76,11 @@ public class BotAgent implements Agent {
         System.out.println("Secantshit:" + answer);
          
         direction = direction.mult(answer);
-       // test(direction,testBall);
         ball.getBallControl().setxVelocity(direction.getX());
         ball.getBallControl().setzVelocity(direction.getZ());
+        testBall.getBallControl().setxVelocity(direction.getX());
+        testBall.getBallControl().setzVelocity(direction.getZ());
+        physics.moveBall(testBall);
     }
     public float getEquation(float distanceBallHole, Vector3f direction, float x){//ballHoleDistance = distance from ball to hole, x approximation
         //the approximated velocity 
@@ -92,11 +93,6 @@ public class BotAgent implements Agent {
         float difference = distanceBallHole - distanceFloat;
         System.out.println("distance BallHole: " + distanceBallHole + "  -  " +" distanceWithApproxVelocity: " + distanceFloat + " =  " + difference);
         return difference;
-    }
-    
-    public void test(Vector3f shot, Ball ball) {
-        ball.getBallControl().setVelocity(shot);
-        System.out.println(physics.moveBall(ball));
     }
     
     public float secantMethod(float approx1, float approx2, float distanceBallHole, Vector3f direction){
