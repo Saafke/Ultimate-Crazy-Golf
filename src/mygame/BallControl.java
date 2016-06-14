@@ -50,7 +50,7 @@ public class BallControl extends AbstractControl implements Savable, Cloneable {
         this.ball = ball;
     }
 
-    public void moveBall() {
+    public void computeMovement() {
         time += fps;
 
         //System.out.println(velocity.toString());
