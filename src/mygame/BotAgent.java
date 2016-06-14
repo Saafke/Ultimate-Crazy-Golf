@@ -43,27 +43,6 @@ public class BotAgent implements Agent {
     public void setHolePosition(Vector3f holePosition) {
         this.holePosition = holePosition;
     }
-
-    public void performShot(float intensity, float xDir, float yDir) {
-        intensity = intensity / 10;
-        if (intensity < 0.4f) {
-            ball.getBallControl().setxVelocity(xDir * intensity);
-            ball.getBallControl().setzVelocity(yDir * intensity);
-        } else {
-            ball.getBallControl().setxVelocity(xDir * 0.4f);
-            ball.getBallControl().setzVelocity(yDir * 0.4f);
-        }
-    }
-    /*public void performShot(float intensity, float xDir, float yDir) {
-        intensity = intensity / 10;
-        if (intensity < 0.4f) {
-            ball.getBallControl().setxVelocity(((xDir) / 10) * intensity);
-            ball.getBallControl().setzVelocity(((yDir) / 10) * intensity);
-        } else {
-            ball.getBallControl().setxVelocity(((xDir) / 10) * 4f);
-            ball.getBallControl().setzVelocity(((yDir) / 10) * 4f);
-        }
-    }*/
     
     public void computeShot() {
         Vector3f ballHoleVector = holePosition.subtract(ball.getSpatial().getLocalTranslation());
