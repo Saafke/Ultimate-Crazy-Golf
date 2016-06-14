@@ -280,10 +280,16 @@ public class PlayAppState extends AbstractAppState {
         for (int i = 0; i < counter3; i++) {
             balls.get(i).setSpatial(loadedNode.getChild("ball" + i));
             balls.get(i).setXYZLocations();
+<<<<<<< HEAD
             agentManager.add(new BotAgent(balls.get(i),hole,physics));
+=======
+            agentManager.add(new PlayerAgent(balls.get(i)));
+//            agentManager.add(new BotAgent(balls.get(i),hole));
+>>>>>>> 8f41c0d3383c8c60e04c1c3a1b2a2c2e0b9009f3
         }
         
         ball = agentManager.getCurrentAgent().getBall();
+        agentManager.getCurrentAgent().setIsPlaying(true);
 
         chaseCam = new ChaseCamera(cam, ball.getSpatial());
         chaseCam.setDefaultDistance(50f);
@@ -433,6 +439,9 @@ public class PlayAppState extends AbstractAppState {
             ball.getBallControl().setyVelocity(ball.getBallControl().getyVelocity() * 0f);
             ball.getBallControl().setzVelocity(ball.getBallControl().getzVelocity() * 0f);
             System.out.println("stop the ball!" );
+            
+            agentManager.getCurrentAgent().setIsPlaying(false);
+            agentManager.nextAgent();
         }
     }
     
@@ -441,7 +450,9 @@ public class PlayAppState extends AbstractAppState {
     }
     
     public void botTurn() {
-        if (!shooted && agentManager.getCurrentAgent().getClass().equals(BotAgent.class)) {
+    	System.out.println(agentManager.getCurrentAgent().isPlaying());
+        if (!shooted && agentManager.getCurrentAgent().getClass().equals(BotAgent.class)
+        		&& agentManager.getCurrentAgent().isPlaying()) {
             ((BotAgent)agentManager.getCurrentAgent()).computeShot();
             shooted = true;
         }
