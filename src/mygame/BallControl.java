@@ -57,7 +57,7 @@ public class BallControl extends AbstractControl implements Savable, Cloneable {
         
         if(upHill == 1 || upHill == -1){
             
-            System.out.println(upHill + "    " + velocity.getY());
+            //System.out.println(upHill + "    " + velocity.getY());
             
             gVector.mult(time);
             velocity.mult((float) Math.pow(1, fps));
