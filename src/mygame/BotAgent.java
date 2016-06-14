@@ -11,14 +11,17 @@ import com.jme3.math.Vector3f;
  * @author nicolagheza
  */
 public class BotAgent implements Agent {
-    private Ball ball;
+    private Ball ball, testBall;
     private PhysicsEngine physics;
     private Vector3f holePosition;
     private boolean isPlaying;
     
-    public BotAgent(Ball ball, Hole hole, PhysicsEngine physics) {
+    public BotAgent(Ball ball, Hole hole) {
         this.ball = ball;
         this.holePosition = hole.getLocation();
+    }
+    
+    public void setPhysics(PhysicsEngine physics) {
         this.physics = physics;
     }
     
@@ -52,10 +55,10 @@ public class BotAgent implements Agent {
         
         Vector3f direction = ballHoleVector.normalize();
         
-        Ball testBall = new Ball("testBall",ball.getSpatial());
+        testBall = new Ball("testBall",ball.getSpatial());
         testBall.setLocation(ball.getSpatial().getLocalTranslation());
         testBall.getSpatial().setLocalTranslation(ball.getSpatial().getLocalTranslation());
-
+        
 //        System.out.println("ballHoleDistanceVector: " + ballHoleVector);
 //        System.out.println("normalized ballHoleDistance (direction): " + direction);
 //        System.out.println("ballHoleDistance/normalized ballHoleDistance (direction):" + ballHoleVector.divide(direction));
@@ -78,9 +81,8 @@ public class BotAgent implements Agent {
         direction = direction.mult(answer);
         ball.getBallControl().setxVelocity(direction.getX());
         ball.getBallControl().setzVelocity(direction.getZ());
-        testBall.getBallControl().setxVelocity(direction.getX());
-        testBall.getBallControl().setzVelocity(direction.getZ());
-        physics.moveBall(testBall);
+        //testBall.getBallControl().setxVelocity(direction.getX());
+        //testBall.getBallControl().setzVelocity(direction.getZ());
     }
     public float getEquation(float distanceBallHole, Vector3f direction, float x){//ballHoleDistance = distance from ball to hole, x approximation
         //the approximated velocity 

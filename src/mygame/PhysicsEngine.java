@@ -34,7 +34,6 @@ public class PhysicsEngine {
 
     public void moveBall(Ball ball) {
         ball.getBallControl().computeMovement();
-        System.out.println("!!!test arrives here!!!");
         float xtemp = (float) ball.getX() + ball.getBallControl().getxVelocity();
         float ytemp = (float) ball.getY() + ball.getBallControl().getyVelocity();
         float ztemp = (float) ball.getZ() + ball.getBallControl().getzVelocity();
