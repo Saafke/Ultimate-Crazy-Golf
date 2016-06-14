@@ -14,7 +14,7 @@ public class PlayerAgent implements Agent {
     private boolean isPlaying;
     
     public PlayerAgent(Ball ball) {
-        setBall(ball);
+        this.ball = ball;
     }
     
     public boolean isPlaying() {

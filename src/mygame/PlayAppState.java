@@ -280,7 +280,7 @@ public class PlayAppState extends AbstractAppState {
         for (int i = 0; i < counter3; i++) {
             balls.get(i).setSpatial(loadedNode.getChild("ball" + i));
             balls.get(i).setXYZLocations();
-            agentManager.add(new BotAgent(balls.get(i),hole));
+            agentManager.add(new PlayerAgent(balls.get(i)));
         }
         
         ball = agentManager.getCurrentAgent().getBall();
@@ -391,7 +391,7 @@ public class PlayAppState extends AbstractAppState {
                 shootIntensity = (float) (timeWhenReleased - timeWhenClicked) / 800;
 
                 Agent curAgent = agentManager.getCurrentAgent();
-                curAgent.performShot(shootIntensity, xDirection, yDirection);
+                ((PlayerAgent)curAgent).performShot(shootIntensity, xDirection, yDirection);
 
                 guiNode.detachChildNamed("gPower");
                 power = 0;
