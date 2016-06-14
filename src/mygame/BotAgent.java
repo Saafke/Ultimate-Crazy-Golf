@@ -12,12 +12,14 @@ import com.jme3.math.Vector3f;
  */
 public class BotAgent implements Agent {
     private Ball ball;
+    private PhysicsEngine physics;
     private Vector3f holePosition;
     private boolean isPlaying;
     
-    public BotAgent(Ball ball, Hole hole) {
+    public BotAgent(Ball ball, Hole hole, PhysicsEngine physics) {
         this.ball = ball;
         this.holePosition = hole.getLocation();
+        this.physics = physics;
     }
     
     public boolean isPlaying() {
@@ -47,12 +49,14 @@ public class BotAgent implements Agent {
     public void computeShot() {
         Vector3f ballHoleVector = holePosition.subtract(ball.getSpatial().getLocalTranslation());
         float distanceBallHole = holePosition.distance(ball.getSpatial().getLocalTranslation());
-                
-        Ball testBall = new Ball("testBall",ball.getSpatial());
         
         Vector3f direction = ballHoleVector.normalize();
-        testBall.setLocation(ball.getSpatial().getLocalTranslation());
         
+        Ball testBall = new Ball("testBall",ball.getSpatial());
+        testBall.setLocation(ball.getSpatial().getLocalTranslation());
+        testBall.getSpatial().setLocalTranslation(ball.getSpatial().getLocalTranslation());
+        System.out.println(testBall.getSpatial().getLocalTranslation());
+        System.out.println(ball.getSpatial().getLocalTranslation());
 //        System.out.println("ballHoleDistanceVector: " + ballHoleVector);
 //        System.out.println("normalized ballHoleDistance (direction): " + direction);
 //        System.out.println("ballHoleDistance/normalized ballHoleDistance (direction):" + ballHoleVector.divide(direction));
@@ -73,7 +77,7 @@ public class BotAgent implements Agent {
         System.out.println("Secantshit:" + answer);
          
         direction = direction.mult(answer);
-
+       // test(direction,testBall);
         ball.getBallControl().setxVelocity(direction.getX());
         ball.getBallControl().setzVelocity(direction.getZ());
     }
@@ -88,6 +92,11 @@ public class BotAgent implements Agent {
         float difference = distanceBallHole - distanceFloat;
         System.out.println("distance BallHole: " + distanceBallHole + "  -  " +" distanceWithApproxVelocity: " + distanceFloat + " =  " + difference);
         return difference;
+    }
+    
+    public void test(Vector3f shot, Ball ball) {
+        ball.getBallControl().setVelocity(shot);
+        System.out.println(physics.moveBall(ball));
     }
     
     public float secantMethod(float approx1, float approx2, float distanceBallHole, Vector3f direction){
