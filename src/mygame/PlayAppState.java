@@ -280,12 +280,8 @@ public class PlayAppState extends AbstractAppState {
         for (int i = 0; i < counter3; i++) {
             balls.get(i).setSpatial(loadedNode.getChild("ball" + i));
             balls.get(i).setXYZLocations();
-<<<<<<< HEAD
-            agentManager.add(new BotAgent(balls.get(i),hole,physics));
-=======
             agentManager.add(new PlayerAgent(balls.get(i)));
 //            agentManager.add(new BotAgent(balls.get(i),hole));
->>>>>>> 8f41c0d3383c8c60e04c1c3a1b2a2c2e0b9009f3
         }
         
         ball = agentManager.getCurrentAgent().getBall();
