@@ -50,7 +50,7 @@ public class PlayAppState extends AbstractAppState {
     private Camera cam;
     private ChaseCamera chaseCam;
     private PhysicsEngine physics;
-    private boolean done = false;
+    private boolean done = false, game = true;
     float yDirection = 0;
     float xDirection = -15;
     private Geometry gLine;
@@ -100,7 +100,7 @@ public class PlayAppState extends AbstractAppState {
 
     @Override
     public void update(float tpf) {
-        if (done) {
+        if (done && game) {
             checkBallAndVector();
             physics.checkBallCollision();
             for (Ball b : balls) {
@@ -437,7 +437,14 @@ public class PlayAppState extends AbstractAppState {
             System.out.println("stop the ball!" );
             
             agentManager.getCurrentAgent().setIsPlaying(false);
-            agentManager.nextAgent();
+            
+            if (agentManager.size() > 1){
+            	agentManager.nextAgent();
+            	agentManager.getCurrentAgent().setIsPlaying(true);
+            } else {
+            	game = false;
+            	System.out.println("done");
+            }
         }
     }
     
@@ -446,7 +453,7 @@ public class PlayAppState extends AbstractAppState {
     }
     
     public void botTurn() {
-    	System.out.println(agentManager.getCurrentAgent().isPlaying());
+//    	System.out.println(agentManager.getCurrentAgent().isPlaying());
         if (!shooted && agentManager.getCurrentAgent().getClass().equals(BotAgent.class)
         		&& agentManager.getCurrentAgent().isPlaying()) {
             ((BotAgent)agentManager.getCurrentAgent()).computeShot();

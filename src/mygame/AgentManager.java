@@ -33,8 +33,16 @@ public class AgentManager {
         }
     }
     
+    public Agent get(int index){
+    	return agents.get(index);
+    }
+    
     public Agent getCurrentAgent() {
         return agents.get(curAgent);
+    }
+    
+    public int size(){
+    	return agents.size();
     }
     
 }
