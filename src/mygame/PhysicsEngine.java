@@ -32,7 +32,7 @@ public class PhysicsEngine {
         this.terrain = terrain;
     }
 
-    public void moveBall(Ball ball) {
+    public Vector3f moveBall(Ball ball) {
         ball.getBallControl().computeMovement();
         float xtemp = (float) ball.getX() + ball.getBallControl().getxVelocity();
         float ytemp = (float) ball.getY() + ball.getBallControl().getyVelocity();
@@ -41,6 +41,7 @@ public class PhysicsEngine {
         //UPDATE VARIABLES IN BALL CLASS AGAIN!!
         ball.setLocation(ball.getSpatial().getLocalTranslation());
         ball.setXYZLocations();
+        return ball.getLocation();
     }
 
     public void checkBallCollision() {
