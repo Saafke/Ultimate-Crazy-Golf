@@ -11,7 +11,7 @@ package mygame;
 public class PlayerAgent implements Agent {
     
     private Ball ball;
-    private boolean isPlaying;
+    private boolean isPlaying, scored = false;
     
     public PlayerAgent(Ball ball) {
         this.ball = ball;
@@ -31,6 +31,14 @@ public class PlayerAgent implements Agent {
 
     public void setBall(Ball ball) {
         this.ball = ball;
+    }
+    
+    public void setScored(boolean scored){
+    	this.scored = scored;
+    }
+    
+    public boolean scored(){
+    	return scored;
     }
 
     public void performShot(float intensity, float xDir, float yDir) {

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class AgentManager {
     private ArrayList<Agent> agents;
     private int curAgent = 0;
+    private boolean scored = false;
     
     public AgentManager() {
         agents = new ArrayList<Agent>();

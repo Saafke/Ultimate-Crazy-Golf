@@ -14,7 +14,7 @@ public class BotAgent implements Agent {
     private Ball ball, testBall;
     private PhysicsEngine physics;
     private Vector3f holePosition;
-    private boolean isPlaying;
+    private boolean isPlaying, scored = false;
     
     public BotAgent(Ball ball, Hole hole) {
         this.ball = ball;
@@ -39,6 +39,14 @@ public class BotAgent implements Agent {
 
     public void setBall(Ball ball) {
         this.ball = ball;
+    }
+    
+    public void setScored(boolean scored){
+    	this.scored = scored;
+    }
+    
+    public boolean scored(){
+    	return scored;
     }
     
     public Vector3f getHolePosition() {

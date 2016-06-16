@@ -10,4 +10,6 @@ public interface Agent {
     boolean isPlaying();
     void setBall(Ball ball);
     Ball getBall();
+    void setScored(boolean scored);
+	boolean scored();
 }

@@ -436,12 +436,25 @@ public class PlayAppState extends AbstractAppState {
             ball.getBallControl().setzVelocity(ball.getBallControl().getzVelocity() * 0f);
             System.out.println("stop the ball!");
             
+            agentManager.getCurrentAgent().setScored(true);
             agentManager.getCurrentAgent().setIsPlaying(false);
             
             if (agentManager.size() > 1){
+            	int a = 0;
+            	for (int i =0; i<agentManager.size(); i++){
+            		if (agentManager.get(i).scored()){
+            			a++;
+            		}
+            		if (a == agentManager.size()){
+            			game = false;
+            			System.out.println("done");
+            		}
+            	}
             	agentManager.nextAgent();
             	agentManager.getCurrentAgent().setIsPlaying(true);
             	ball = agentManager.getCurrentAgent().getBall();
+            	changeCamera(ball);
+            	shooted = false;            	
             } else {
             	game = false;
             	System.out.println("done");
@@ -460,13 +473,12 @@ public class PlayAppState extends AbstractAppState {
             ((BotAgent)agentManager.getCurrentAgent()).setPhysics(physics);
             ((BotAgent)agentManager.getCurrentAgent()).computeShot();
             shooted = true;
-        } else {
-        	shooted = false;
-        }
+        } 
     }
     
     public void checkIfStill() {
         if (shooted && !ball.getBallControl().isMoving()) {
+        		System.out.println("he");
                 shooted = false;
                 ball = agentManager.nextAgent().getBall();
                 changeCamera(ball);
