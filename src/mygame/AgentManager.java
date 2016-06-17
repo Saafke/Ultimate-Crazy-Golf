@@ -4,6 +4,7 @@
  */
 package mygame;
 
+import com.jme3.asset.AssetManager;
 import java.util.ArrayList;
 
 /**

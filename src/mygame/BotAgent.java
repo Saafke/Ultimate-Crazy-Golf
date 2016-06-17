@@ -11,20 +11,23 @@ import com.jme3.math.Vector3f;
  * @author nicolagheza
  */
 public class BotAgent implements Agent {
-    private Ball ball, testBall;
     private PhysicsEngine physics;
+    private Ball ball;
     private Vector3f holePosition;
     private boolean isPlaying, scored = false;
+    private BotStrategy bot;
     
     public BotAgent(Ball ball, Hole hole) {
         this.ball = ball;
         this.holePosition = hole.getLocation();
     }
     
-    public void setPhysics(PhysicsEngine physics) {
-        this.physics = physics;
+    public void computeShot() {
+        bot = new BinarySearchBot(physics,ball,holePosition);
+        Vector3f shot = bot.computeShot();
+        ball.getBallControl().setVelocity(shot);
     }
-    
+
     public boolean isPlaying() {
         return isPlaying;
     }
@@ -57,71 +60,8 @@ public class BotAgent implements Agent {
         this.holePosition = holePosition;
     }
     
-    public void computeShot() {
-        Vector3f ballHoleVector = holePosition.subtract(ball.getSpatial().getLocalTranslation());
-        float distanceBallHole = holePosition.distance(ball.getSpatial().getLocalTranslation());
-        
-        Vector3f direction = ballHoleVector.normalize();
-        
-        testBall = new Ball("testBall",ball.getSpatial());
-        testBall.setLocation(ball.getSpatial().getLocalTranslation());
-        testBall.getSpatial().setLocalTranslation(ball.getSpatial().getLocalTranslation());
-        
-//        System.out.println("ballHoleDistanceVector: " + ballHoleVector);
-//        System.out.println("normalized ballHoleDistance (direction): " + direction);
-//        System.out.println("ballHoleDistance/normalized ballHoleDistance (direction):" + ballHoleVector.divide(direction));
-        
-        float point1=0f, point2=4f;
-        
-//      while (!testBall.getBallControl().isMoving())
-//          {
-//            testBall.getBallControl().setxVelocity(shot.getX()*point2);
-//           testBall.getBallControl().setxVelocity(shot.getY()*point2);
-            
-//        }
-        
-//        System.out.println("difference 3 : " + getEquation(distanceBallHole,direction,3f));
-//        System.out.println("difference 0.1 : " + getEquation(distanceBallHole,direction,0.1f));
-        
-        float answer = secantMethod(0.1f,30f,distanceBallHole,direction) * 1.05f;         // times 1.1 because otherwise it is just too slow
-        System.out.println("Secantshit:" + answer);
-         
-        direction = direction.mult(answer);
-        ball.getBallControl().setxVelocity(direction.getX());
-        ball.getBallControl().setzVelocity(direction.getZ());
-        //testBall.getBallControl().setxVelocity(direction.getX());
-        //testBall.getBallControl().setzVelocity(direction.getZ());
-    }
-    public float getEquation(float distanceBallHole, Vector3f direction, float x){//ballHoleDistance = distance from ball to hole, x approximation
-        //the approximated velocity 
-        Vector3f fua = direction.mult(x);
-        //how much the ball travels with that velocity (in vectors)
-        Vector3f distance = ball.getBallControl().getDistance(fua);
-        //how much the ball travels with that velocity (in floats)
-        float distanceFloat = distance.length();
-        //difference between the two
-        float difference = distanceBallHole - distanceFloat;
-        System.out.println("distance BallHole: " + distanceBallHole + "  -  " +" distanceWithApproxVelocity: " + distanceFloat + " =  " + difference);
-        return difference;
-    }
-    
-    public float secantMethod(float approx1, float approx2, float distanceBallHole, Vector3f direction){
-        float b = getEquation(distanceBallHole,direction,approx2);
-        float a = getEquation(distanceBallHole,direction,approx1);
-        System.out.println("b: " + b);
-        System.out.println("a: " + a);
-        
-        if(b == a) throw new IllegalArgumentException();
-        
-        float epsilon = 0.001f;
-        float nextapprox;
-        
-        nextapprox = approx2 - (  (  (approx2 - approx1)/(b - a)  )  *  b);
-       
-        System.out.println("next apprpox ;" + nextapprox);
-        
-        if (Math.abs(nextapprox - approx2) > epsilon) return secantMethod(approx2,nextapprox,distanceBallHole,direction);
-        else return nextapprox;
+    public void addPhysics(PhysicsEngine physics) {
+        this.physics = physics;
     }
     
 }

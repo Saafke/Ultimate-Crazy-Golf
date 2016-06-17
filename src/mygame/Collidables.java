@@ -16,6 +16,7 @@ public abstract class Collidables{
      }
      public void setLocation(Vector3f location){
          this.location = location;
+         setXYZLocations(); 
      }
      public Vector3f getLocation(){
         return this.location;

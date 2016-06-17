@@ -15,7 +15,7 @@ public class Ball extends Collidables {
     private Spatial s;
     private BallControl control;
     public Ball(String name, Spatial s) {
-        this.s = s;
+        this.s = s.clone();
         s.setName(name);
         setExtent(0.992, 0.995, 0.99);
         control = new BallControl(this);

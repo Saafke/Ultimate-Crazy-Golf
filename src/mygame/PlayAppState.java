@@ -470,7 +470,7 @@ public class PlayAppState extends AbstractAppState {
 //    	System.out.println(agentManager.getCurrentAgent().isPlaying());
         if (!shooted && agentManager.getCurrentAgent().getClass().equals(BotAgent.class)
         		&& agentManager.getCurrentAgent().isPlaying()) {
-            ((BotAgent)agentManager.getCurrentAgent()).setPhysics(physics);
+            ((BotAgent)agentManager.getCurrentAgent()).addPhysics(physics);
             ((BotAgent)agentManager.getCurrentAgent()).computeShot();
             shooted = true;
         } 
