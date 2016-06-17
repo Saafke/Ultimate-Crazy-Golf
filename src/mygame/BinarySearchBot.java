@@ -28,6 +28,8 @@ public class BinarySearchBot implements BotStrategy {
         Vector3f shotVector = holePosition.subtract(ball.getLocation());
         float distance = shotVector.length();
         if (DEBUG) {
+            System.out.println("Hole location: " + holePosition);
+            System.out.println("Ball position: " + ballPosition);
             System.out.println("Starting distance: " + distance);
         }
         shotVector = shotVector.normalize();
@@ -69,6 +71,8 @@ public class BinarySearchBot implements BotStrategy {
             firstIteration = false;
             physics.moveBall(testBall);
         }
+        if (DEBUG)
+            System.out.println("TestBall moved to position: " + testBall.getLocation());
         float newDistance = testBall.getLocation().subtract(ballPosition).length();
         return newDistance;
     }

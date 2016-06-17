@@ -18,7 +18,9 @@ import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.material.Material;
+import com.jme3.material.RenderState;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
@@ -32,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import com.jme3.scene.shape.Quad;
 import com.jme3.terrain.geomipmap.TerrainQuad;
+import com.jme3.texture.Texture;
 import com.jme3.util.SkyFactory;
 
 /**
