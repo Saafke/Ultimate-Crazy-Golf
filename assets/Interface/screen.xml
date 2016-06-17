@@ -74,14 +74,17 @@
                 <!-- Takes up the rest of the vertical space of this layer. -->
             </panel>
             <panel id="panel" height="22%" width="12.5%" childLayout="center">
-                 <image filename="Interface/HealthBar2.png" height="100%" width="20%">
+                <image filename="Interface/HealthBar2.png" height="100%" width="20%">
                 </image>
-                </panel>
+            </panel>
             <panel id="panel" height="6%" width="13%" childLayout="center">
-                <control name="label" text="Power">  
+                <control name="label" text="Power">
                 </control>
             </panel>
-            
+            <panel id="panel" height="-7%" width="180%" childLayout="center">
+                <control name="label" text="Wind">
+                </control>
+            </panel>
         </layer>
     </screen>
 </nifty>
