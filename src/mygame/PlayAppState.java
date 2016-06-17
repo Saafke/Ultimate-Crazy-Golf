@@ -69,6 +69,9 @@ public class PlayAppState extends AbstractAppState {
     private ArrayList<Collidables> obstaclesList;
     private TerrainQuad terrain;
     private AgentManager agentManager;
+    private double            windProbability;
+    private Geometry          arrow;
+    private String            nWind;
 
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
@@ -295,6 +298,7 @@ public class PlayAppState extends AbstractAppState {
         addGrass();
         makeVector();
         makePowerIndicator();
+        makeWind();
         initKeys();
 
         Spatial sky = SkyFactory.createSky(assetManager, "Textures/Sky.dds", false);
@@ -337,6 +341,86 @@ public class PlayAppState extends AbstractAppState {
         guiNode.attachChild(gPower);
         guiNode.getChild("gPower").setLocalTranslation(34, 61, 0);
 
+    }
+    private void makeWind(){
+            arrow = new Geometry("My Textured Box", new Quad(20,40));
+            arrow.setLocalTranslation(565,60,0);
+            Material cube1Mat = new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+            Texture Tex = assetManager.loadTexture("Interface/arrow1.png");
+            cube1Mat.setTexture("ColorMap", Tex);
+            cube1Mat.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
+            arrow.setMaterial(cube1Mat);
+            guiNode.attachChild(arrow);
+            
+    }
+    private String currentWind(){
+        windProbability = Math.random();
+  
+        if(windProbability<=0.25){
+            guiNode.detachChild(arrow);
+            arrow = new Geometry("My Textured Box", new Quad(20,40));
+            Material cube1Mat = new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+            Texture Tex = assetManager.loadTexture("Interface/arrow1.png");
+            cube1Mat.setTexture("ColorMap", Tex);
+            cube1Mat.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
+            arrow.setMaterial(cube1Mat);
+            Quaternion q = new Quaternion();
+            q.fromAngles(0,0, 1.5708f);
+            arrow.setLocalRotation(q);
+            arrow.setLocalTranslation(595,60,0);
+            System.out.println("Left");
+            guiNode.attachChild(arrow);
+            return "Left";
+        }
+        if(windProbability<=0.5){
+            guiNode.detachChild(arrow);
+            arrow = new Geometry("My Textured Box", new Quad(20,40));
+            Material cube1Mat = new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+            Texture Tex = assetManager.loadTexture("Interface/arrow1.png");
+            cube1Mat.setTexture("ColorMap", Tex);
+            cube1Mat.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
+            arrow.setMaterial(cube1Mat);
+            Quaternion q = new Quaternion();
+            q.fromAngles(0, 0, 4.71239f);
+            arrow.setLocalRotation(q);
+            arrow.setLocalTranslation(557,80,0);
+            System.out.println("Right");
+            guiNode.attachChild(arrow);
+            return "Right";
+        }
+         if(windProbability<=0.75){
+            guiNode.detachChild(arrow);
+            arrow = new Geometry("My Textured Box", new Quad(20,40));
+            Material cube1Mat = new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+            Texture Tex = assetManager.loadTexture("Interface/arrow1.png");
+            cube1Mat.setTexture("ColorMap", Tex);
+            cube1Mat.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
+            arrow.setMaterial(cube1Mat);
+            Quaternion q = new Quaternion();
+            q.fromAngles(0, 0, 0);
+            arrow.setLocalRotation(q);
+            arrow.setLocalTranslation(565,60,0);
+            System.out.println("Up");
+            guiNode.attachChild(arrow);
+            return "Up";
+        }
+        else{
+            guiNode.detachChild(arrow);
+            arrow = new Geometry("My Textured Box", new Quad(20,40));
+            arrow.setLocalTranslation(565,60,0);
+            Material cube1Mat = new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
+            Texture Tex = assetManager.loadTexture("Interface/arrow1.png");
+            cube1Mat.setTexture("ColorMap", Tex);
+            cube1Mat.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
+            arrow.setMaterial(cube1Mat);
+            Quaternion q = new Quaternion();
+            q.fromAngles(0, 0, 3.14159f);
+            arrow.setLocalRotation(q);
+            arrow.setLocalTranslation(585,100,0);
+            System.out.println("Down");
+            guiNode.attachChild(arrow);
+            return "Down";
+        }
     }
 
     //==================KEY INPUT============================STUFF==================================================
@@ -393,7 +477,9 @@ public class PlayAppState extends AbstractAppState {
                 shootIntensity = (float) (timeWhenReleased - timeWhenClicked) / 800;
 
                 Agent curAgent = agentManager.getCurrentAgent();
+                ball.getBallControl().changeWind(nWind, xDirection, yDirection);
                 ((PlayerAgent)curAgent).performShot(shootIntensity, xDirection, yDirection);
+                nWind = currentWind();
 
                 guiNode.detachChildNamed("gPower");
                 power = 0;

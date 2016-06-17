@@ -34,6 +34,8 @@ public class BallControl extends AbstractControl implements Savable, Cloneable {
     private Ball ball;
     private float time = 0;
     private float gravity = 0.1f;
+    private float wind1=1f;
+    private float wind2=1f;
     private int upHill = 0; //-1 is downhill 0 is flat terrain, 
     // 1 is uphill, 2 is falling , 3 is flying
 
@@ -66,8 +68,8 @@ public class BallControl extends AbstractControl implements Savable, Cloneable {
             velocity = velocity.add(slopeAcceleration.mult(fps)).mult(friction);
         } else if (upHill == 0) {
 //            System.out.println("flat" + velocity.toString());
-            velocity.setX(velocity.getX() * friction);
-            velocity.setZ(velocity.getZ() * friction);
+            velocity.setX(velocity.getX() * friction * wind1);
+            velocity.setZ(velocity.getZ() * friction * wind2);
         } else if (upHill == 2) {
 //            System.out.println("falling" + velocity.toString());
             velocity.setX(velocity.getX() * friction);
@@ -87,6 +89,55 @@ public class BallControl extends AbstractControl implements Savable, Cloneable {
         }
         //System.out.println("vel" + velocity.toString());
         //System.out.println("time: " + time);
+    }
+    public void changeWind(String wind, float xD, float yD){
+        float newX = xD/yD;
+        
+        
+       if(newX>=0 && newX<=15f){
+        if(wind=="Left"){
+            wind1=0.99f;
+            wind2=0.98f;
+            
+        }
+        else if(wind=="Right"){
+            wind1=0.98f;
+            wind2=0.99f;
+           
+        }
+        else if(wind=="Up"){
+            wind1=0.999f;
+            wind2=0.999f;
+            
+        }
+        else if(wind =="Down"){
+            wind1=0.98f;
+            wind2=0.98f;
+            
+        } 
+       }
+       else if(newX<=0 && newX>=-15f){
+          if(wind=="Left"){
+            wind1=0.98f;
+            wind2=0.99f;
+            
+        }
+        else if(wind=="Right"){
+            wind1=0.99f;
+            wind2=0.98f;
+           
+        }
+        else if(wind=="Up"){
+            wind1=0.999f;
+            wind2=0.999f;
+            
+        }
+        else if(wind =="Down"){
+            wind1=0.98f;
+            wind2=0.98f;
+            
+        }  
+       }
     }
     
     public void setNormal(Vector3f normal){
