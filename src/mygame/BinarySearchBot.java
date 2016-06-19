@@ -34,8 +34,8 @@ public class BinarySearchBot implements BotStrategy {
         }
         shotVector = shotVector.normalize();
         float a = 0.1f;
-        float b = 30.0f;
-        float c = bisection_method(a, b, distance, shotVector, 0.001f);
+        float b = 10.0f;
+        float c = bisection_method(a, b, distance, shotVector,0.001f);
         return shotVector.mult(c);
     }
 
@@ -54,7 +54,7 @@ public class BinarySearchBot implements BotStrategy {
                 b = c;
             }
             if (DEBUG) {
-            System.out.println("New c: " + c);
+                System.out.println("New c: " + c);
             }
         }
         return c;
@@ -62,6 +62,7 @@ public class BinarySearchBot implements BotStrategy {
 
     private float simulateShot(Vector3f shotVector) {
         Ball testBall = new Ball("testBall", ball.getBallControl().getSpatial().clone());
+        testBall.getSpatial().setLocalTranslation(ballPosition);
         testBall.setLocation(ballPosition);
         if (DEBUG)
             System.out.println("Creating TestBall at position: " + testBall.getLocation());
@@ -71,8 +72,9 @@ public class BinarySearchBot implements BotStrategy {
             firstIteration = false;
             physics.moveBall(testBall);
         }
-        if (DEBUG)
+        if (DEBUG) {
             System.out.println("TestBall moved to position: " + testBall.getLocation());
+        }
         float newDistance = testBall.getLocation().subtract(ballPosition).length();
         return newDistance;
     }
